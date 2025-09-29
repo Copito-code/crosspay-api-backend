@@ -1,15 +1,24 @@
 """
 URL configuration for config project.
-...
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/5.2/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from transactions.views import TransactionViewSet
-from transactions.views import UserRegisterView # Asegurar que esta importación exista
-from django.http import HttpResponse 
-from django.views.decorators.csrf import csrf_exempt 
-from django.views.decorators.http import require_http_methods 
+from transactions.views import UserRegisterView # Asegúrate que esta importación exista
 
 
 # Importaciones de JWT
@@ -17,30 +26,6 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-
-# -------------------------------------------------------------
-# 💥 SOLUCIÓN CORS EXTREMA (Solo para Preflight OPTIONS)
-# -------------------------------------------------------------
-# Esta función intercepta la petición OPTIONS para /api/token/ y envía los headers CORS.
-
-@csrf_exempt 
-@require_http_methods(["OPTIONS"])
-def options_view(request, *args, **kwargs):
-    # Esto garantiza que el navegador reciba la respuesta necesaria para pasar el CORS
-    response = HttpResponse()
-    # Forzamos los encabezados que el navegador espera para tu origen local
-    response['Access-Control-Allow-Origin'] = 'http://localhost:5173' 
-    response['Access-Control-Allow-Methods'] = 'POST, OPTIONS' # El login usa POST
-    response['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, X-CSRFToken'
-    response['Access-Control-Allow-Credentials'] = 'true'
-    response['Access-Control-Max-Age'] = '86400' 
-    response.status_code = 200
-    return response
-
-# -------------------------------------------------------------
-# FIN SOLUCIÓN CORS EXTREMA
-# -------------------------------------------------------------
-
 
 # 1. Configurar el Router para la API
 router = DefaultRouter()
@@ -50,15 +35,11 @@ router.register(r'transactions', TransactionViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls), 
     
-    # Asumo que esta ruta de registro existe en tu proyecto completo
-    path('api/register/', UserRegisterView.as_view(), name='register'), 
-
-    # 💥 CRUCIAL: Añadimos la función de OPTIONS justo antes del endpoint de POST
-    path('api/token/', options_view, name='token_options_preflight'), 
-
-    # ENDPOINTS DE JWT: Obtiene el 'access' y 'refresh' token (Login)
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'), 
     
+    
+    # ENDPOINTS DE JWT: Reemplazan /api-auth/login/
+    # Obtiene el 'access' y 'refresh' token (Login)
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'), 
     # Renueva el token (sesiones largas)
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), 
     
