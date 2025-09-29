@@ -36,8 +36,8 @@ ALLOWED_HOSTS = ['*']
 
 # En producción, permitimos todos los subdominios y la URL principal.
 if not DEBUG:
-    ALLOWED_HOSTS += config('ALLOWED_HOSTS', default='').split(',')
-
+    # Agrega la URL explícitamente y el comodín de Render en produccion
+    ALLOWED_HOSTS = ['crosspay-api-backend.onrender.com', '.onrender.com']
 
 
 
