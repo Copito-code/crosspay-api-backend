@@ -39,6 +39,7 @@ urlpatterns = [
 
     path('api/register/', UserRegisterView.as_view(), name='register'), # RUTA TEMPORAL
     
+    
     # ENDPOINTS DE JWT: Reemplazan /api-auth/login/
     # Obtiene el 'access' y 'refresh' token (Login)
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'), 

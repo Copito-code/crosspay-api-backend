@@ -6,6 +6,7 @@ from .serializers import TransactionSerializer
 from rest_framework import generics
 from .serializers import UserCreateSerializer
 from django.contrib.auth.models import User
+from .serializers import UserCreateSerializer
 
 
 
@@ -33,6 +34,8 @@ class TransactionViewSet(viewsets.ModelViewSet):
 
 
 class UserRegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
+    # Esta vista es solo para un uso temporal y único.
     serializer_class = UserCreateSerializer
     permission_classes = [] # Permitir acceso público TEMPORALMENTE
+
+
