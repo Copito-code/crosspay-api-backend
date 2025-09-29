@@ -5,6 +5,7 @@ from .models import Transaction
 from .serializers import TransactionSerializer
 from rest_framework import generics
 from .serializers import UserCreateSerializer
+from django.contrib.auth.models import User
 
 
 
