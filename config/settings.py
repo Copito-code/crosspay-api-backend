@@ -6,7 +6,7 @@ Django settings for config project.
 from pathlib import Path
 import os
 from decouple import config
-import dj_database_url # Nuevo: Para configurar PostgreSQL con una URL
+import dj_database_url 
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,13 +32,13 @@ if not DEBUG:
 
 
 # --------------------------------------------------------------------------
-# 💥 CORRECCIÓN DEFINITIVA DE CORS/CSRF
+# 💥 CONFIGURACIÓN CORS/CSRF (FINAL)
 # --------------------------------------------------------------------------
 
-# Orígenes permitidos de CORS. Se establece una lista explícita y completa como valor por defecto.
+# 1. Orígenes permitidos de CORS. Se establece una lista explícita y completa como valor por defecto.
 CORS_ALLOWED_ORIGINS = config(
     'CORS_ALLOWED_ORIGINS', 
-    # **AQUÍ FORZAMOS TODOS LOS ORÍGENES NECESARIOS**
+    # FORZAMOS: localhost:5173, 127.0.0.1:5173 y la URL de Render.
     default='http://localhost:5173,http://127.0.0.1:5173,https://crosspay-api-backend.onrender.com'
 ).split(',')
 
@@ -46,25 +46,23 @@ CORS_ALLOWED_ORIGINS = config(
 if DEBUG:
     # En desarrollo local (si DEBUG=True), permitimos *cualquier* origen (más flexible).
     CORS_ALLOW_ALL_ORIGINS = True
-    # Si usamos ALLOW_ALL_ORIGINS, la lista CORS_ALLOWED_ORIGINS se ignora, 
-    # pero la dejamos para que sirva de default en producción si la variable env falla.
 else:
-    # En producción (Render, si DEBUG=False), solo se permiten los de la lista de arriba.
+    # En producción (Render), solo se permiten los de la lista de arriba.
     CORS_ALLOW_ALL_ORIGINS = False 
-
+    
 CORS_ALLOW_CREDENTIALS = True 
 
-# Esto le dice a Django que confíe en los orígenes que envían la cookie CSRF.
+# 2. Trusted Origins para cookies CSRF (Necesario para Login/POST)
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:5173', 
     'http://127.0.0.1:5173',
     'https://crosspay-api-backend.onrender.com', 
 ]
 
-# ⚠️ La variable CORS_ORIGIN_WHITELIST es obsoleta. No la definimos para evitar conflictos.
+# ⚠️ Nota: Se eliminó CORS_ORIGIN_WHITELIST por ser obsoleto y conflictivo.
 
 # --------------------------------------------------------------------------
-# FIN CORRECCIÓN DE CORS/CSRF
+# FIN CONFIGURACIÓN CORS/CSRF
 # --------------------------------------------------------------------------
 
 
@@ -78,21 +76,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework', # Para la api Rest 
-    'corsheaders',  # Para permitir la comunicación con React
+    'corsheaders', # Para permitir la comunicación con React
     'transactions', # Nuestra aplicación de transacciones'
     'rest_framework_simplejwt', # Autenticación
 ]
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'corsheaders.middleware.CorsMiddleware', # 1. CRUCIAL: Debe ser la primera después de WhiteNoise
-    'django.middleware.security.SecurityMiddleware', # 2
-    'django.contrib.sessions.middleware.SessionMiddleware', # 3 
-    'django.middleware.common.CommonMiddleware', # 4
-    'django.middleware.csrf.CsrfViewMiddleware', # 5
-    'django.contrib.auth.middleware.AuthenticationMiddleware', #6 
-    'django.contrib.messages.middleware.MessageMiddleware', # 7
-    'django.middleware.clickjacking.XFrameOptionsMiddleware', # 8
+    # ⚠️ CRUCIAL: CorsMiddleware debe ir aquí
+    'corsheaders.middleware.CorsMiddleware', 
+    'django.middleware.security.SecurityMiddleware', 
+    'django.contrib.sessions.middleware.SessionMiddleware', 
+    'django.middleware.common.CommonMiddleware', 
+    'django.middleware.csrf.CsrfViewMiddleware', 
+    'django.contrib.auth.middleware.AuthenticationMiddleware', 
+    'django.contrib.messages.middleware.MessageMiddleware', 
+    'django.middleware.clickjacking.XFrameOptionsMiddleware', 
     
 ]
 
@@ -169,6 +168,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Habilitar compresión de archivos estáticos
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -192,7 +192,7 @@ REST_FRAMEWORK = {
 SESSION_COOKIE_DOMAIN = None
 SESSION_COOKIE_SAMESITE = None 
 SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False 
 CSRF_COOKIE_HTTPONLY = False
 
 
