@@ -196,8 +196,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 SESSION_COOKIE_DOMAIN = 'localhost' 
 
-# MUY IMPORTANTE: Asegúrate de que ALLOWED_HOSTS incluya 'localhost' y '127.0.0.1'
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
 
 SESSION_COOKIE_SAMESITE = None 
 SESSION_COOKIE_SECURE = False  
