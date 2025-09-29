@@ -9,9 +9,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # ⚠️ Cambia estas credenciales por las que usarás para el Admin Panel
-        USERNAME = os.environ.get('SUPERUSER_NAME', 'admin')
-        EMAIL = os.environ.get('SUPERUSER_EMAIL', 'admin@crosspay.com')
-        PASSWORD = os.environ.get('SUPERUSER_PASSWORD', 'adminpass')
+        USERNAME = os.environ.get('SUPERUSER_NAME', 'admin770')
+        EMAIL = os.environ.get('SUPERUSER_EMAIL', 'admin@gmail.com')
+        PASSWORD = os.environ.get('SUPERUSER_PASSWORD', 'admin123')
         
         User = get_user_model()
         
