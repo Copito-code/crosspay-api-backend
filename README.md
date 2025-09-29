@@ -54,17 +54,17 @@ cd backend-django
 Es crucial usar un entorno virtual para aislar las dependencias del proyecto.
 
 
-# Crear entorno virtual (ej. venv)
+## Crear entorno virtual (ej. venv)
 python3 -m venv .venv
 
-# Activar el entorno virtual
+## Activar el entorno virtual
 source .venv/bin/activate  # En Linux/macOS
 
 
-# .venv\Scripts\activate   # En Windows
+## .venv\Scripts\activate   # En Windows
 
 
-# Instalar dependencias
+## Instalar dependencias
 pip install -r requirements.txt
 
 Nota: Debes generar el archivo requirements.txt si aún no existe, ejecutando: pip freeze > requirements.txt
@@ -75,12 +75,13 @@ El proyecto usa un archivo .env en la raíz para las configuraciones sensibles. 
 .env
 
 Fragmento de código
-# Configuración del proyecto Django
+## Configuración del proyecto Django
 SECRET_KEY=<TU_CLAVE_SECRETA_UNICA_Y_LARGA>
 DEBUG=True
 
-# Configuración de la base de datos (SQLite en desarrollo)
-# En producción, esto sería diferente (PostgreSQL)
+## Configuración de la base de datos (SQLite en desarrollo)
+En producción, esto sería diferente (PostgreSQL)
+
 DATABASE_URL=sqlite:///db.sqlite3
 
 
@@ -99,7 +100,7 @@ Necesitas un usuario para acceder al Portal Administrativo y obtener un JWT.
 python manage.py createsuperuser
 
 
-# Sigue las instrucciones para crear el usuario (ej: admin / adminpass)
+## Sigue las instrucciones para crear el usuario (ej: admin / adminpass)
 
 6. Ejecutar el Servidor
 Inicia el servidor de desarrollo de Django:
