@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from transactions.views import TransactionViewSet
+from transactions.views import UserRegisterView
 
 # Importaciones de JWT
 from rest_framework_simplejwt.views import (
@@ -35,6 +36,8 @@ router.register(r'transactions', TransactionViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls), 
+
+    path('api/register/', UserRegisterView.as_view(), name='register'), # RUTA TEMPORAL
     
     # ENDPOINTS DE JWT: Reemplazan /api-auth/login/
     # Obtiene el 'access' y 'refresh' token (Login)

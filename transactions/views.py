@@ -3,6 +3,10 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, AllowAny 
 from .models import Transaction
 from .serializers import TransactionSerializer
+from rest_framework import generics
+from .serializers import UserCreateSerializer
+
+
 
 
 class TransactionViewSet(viewsets.ModelViewSet):
@@ -23,3 +27,11 @@ class TransactionViewSet(viewsets.ModelViewSet):
         # POST, PUT, DELETE, etc., son públicos (Pasarela de Pago).
         # Esto previene el error 'CSRF token missing' en la pasarela.
         return [AllowAny()]
+    
+
+
+
+class UserRegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserCreateSerializer
+    permission_classes = [] # Permitir acceso público TEMPORALMENTE

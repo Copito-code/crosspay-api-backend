@@ -3,6 +3,7 @@ from rest_framework import serializers
 from .models import Transaction
 from datetime import datetime
 import re
+from django.contrib.auth.models import User
 
 class TransactionSerializer(serializers.ModelSerializer):
     
@@ -71,3 +72,19 @@ class TransactionSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("El código de seguridad debe tener 3 o 4 dígitos")
         
         return value
+    
+
+
+class UserCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'password')
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        # Opcional: Establecer el primer usuario como Superusuario
+        # user.is_staff = True 
+        # user.is_superuser = True
+        # user.save()
+        return user
