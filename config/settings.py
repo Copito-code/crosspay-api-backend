@@ -175,6 +175,7 @@ REST_FRAMEWORK = {
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:5173', 
     'http://127.0.0.1:5173',
+    'https://crosspay-api-backend.onrender.com', # CRUCIAL: Añadir la URL de la API
 ]
 
 # Orígenes de CORS (Para GET y POST)
@@ -188,7 +189,10 @@ CORS_ORIGIN_WHITELIST = [
 
 # CORS Configuration
 # La variable de entorno `CORS_ALLOWED_ORIGINS` se usará en producción.
-CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:5173').split(',')
+CORS_ALLOWED_ORIGINS = config(
+    'CORS_ALLOWED_ORIGINS', 
+    default='http://localhost:5173,http://127.0.0.1:5173,https://crosspay-api-backend.onrender.com'
+).split(',')
 CORS_ALLOW_CREDENTIALS = True 
 
 
