@@ -74,17 +74,18 @@ class TransactionSerializer(serializers.ModelSerializer):
         return value
     
 
-
 class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'password')
+        # 1. AÑADIR 'email' a la lista de campos
+        fields = ('username', 'email', 'password') 
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        # Creamos el usuario
+        # 2. PASAR 'email' al create_user
         user = User.objects.create_user(
             username=validated_data['username'],
+            email=validated_data['email'], # ¡AQUÍ ESTÁ EL CAMBIO!
             password=validated_data['password']
         )
         # ⚠️ CRUCIAL: Convertir el primer usuario a staff/superuser
