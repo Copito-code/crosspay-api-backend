@@ -3,13 +3,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, AllowAny 
 from .models import Transaction
 from .serializers import TransactionSerializer
-from rest_framework import generics
-from .serializers import UserCreateSerializer
-from django.contrib.auth.models import User
-from .serializers import UserCreateSerializer
 
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
 
 
 
@@ -32,12 +26,5 @@ class TransactionViewSet(viewsets.ModelViewSet):
         # Esto previene el error 'CSRF token missing' en la pasarela.
         return [AllowAny()]
     
-
-
-@method_decorator(csrf_exempt, name='dispatch') # AÑADIR ESTA LÍNEA
-class UserRegisterView(generics.CreateAPIView):
-    # Esta vista es solo para un uso temporal y único.
-    serializer_class = UserCreateSerializer
-    permission_classes = [] # Permitir acceso público TEMPORALMENTE
 
 
