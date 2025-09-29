@@ -34,6 +34,26 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 # Hosts permitidos (Render/Railway te darán la URL final)
 ALLOWED_HOSTS = ['*']
 
+
+if DEBUG:
+    # ⚠️ Esto es solo para desarrollo. No lo uses en producción sin un control estricto.
+    CORS_ALLOW_ALL_ORIGINS = True 
+    CORS_ALLOWED_ORIGINS = [] # Vaciamos la lista si usamos ALL_ORIGINS = True
+    
+# En producción, o si DEBUG es False, usamos la lista estricta.
+else:
+    # Aseguramos que la lista se construya a partir de la variable de entorno 
+    # y el valor por defecto robusto que ya definimos.
+    CORS_ALLOWED_ORIGINS = config(
+        'CORS_ALLOWED_ORIGINS', 
+        default='http://localhost:5173,http://127.0.0.1:5173,https://crosspay-api-backend.onrender.com'
+    ).split(',')
+
+CORS_ALLOW_CREDENTIALS = True 
+
+
+
+
 # En producción, permitimos todos los subdominios y la URL principal.
 if not DEBUG:
     # Agrega la URL explícitamente y el comodín de Render en produccion
@@ -187,13 +207,6 @@ CORS_ORIGIN_WHITELIST = [
 
 
 
-# CORS Configuration
-# La variable de entorno `CORS_ALLOWED_ORIGINS` se usará en producción.
-CORS_ALLOWED_ORIGINS = config(
-    'CORS_ALLOWED_ORIGINS', 
-    default='http://localhost:5173,http://127.0.0.1:5173,https://crosspay-api-backend.onrender.com'
-).split(',')
-CORS_ALLOW_CREDENTIALS = True 
 
 
 
