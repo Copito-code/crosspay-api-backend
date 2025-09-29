@@ -188,7 +188,7 @@ CORS_ORIGIN_WHITELIST = [
 
 # CORS Configuration
 # La variable de entorno `CORS_ALLOWED_ORIGINS` se usará en producción.
-CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:3000').split(',')
+CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:5173').split(',')
 CORS_ALLOW_CREDENTIALS = True 
 
 
