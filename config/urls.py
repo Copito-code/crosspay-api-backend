@@ -18,7 +18,6 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from transactions.views import TransactionViewSet
-from transactions.views import UserRegisterView # Asegúrate que esta importación exista
 
 
 # Importaciones de JWT
