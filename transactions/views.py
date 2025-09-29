@@ -8,6 +8,8 @@ from .serializers import UserCreateSerializer
 from django.contrib.auth.models import User
 from .serializers import UserCreateSerializer
 
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 
 
@@ -32,7 +34,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
     
 
 
-
+@method_decorator(csrf_exempt, name='dispatch') # AÑADIR ESTA LÍNEA
 class UserRegisterView(generics.CreateAPIView):
     # Esta vista es solo para un uso temporal y único.
     serializer_class = UserCreateSerializer
