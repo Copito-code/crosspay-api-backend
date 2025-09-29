@@ -32,7 +32,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 # Hosts permitidos (Render/Railway te darán la URL final)
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'tu-app-de-render.onrender.com', 'tu-app-de-railway.app']
+ALLOWED_HOSTS = ['.onrender.com','127.0.0.1', 'localhost', 'tu-app-de-railway.app']
 
 # En producción, permitimos todos los subdominios y la URL principal.
 if not DEBUG:
